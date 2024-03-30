@@ -28,6 +28,11 @@ pipeline {
                     sh 'chmod 400 ansible_key '
                     sh 'ansible-playbook -i hosts --private-key ansible_key playbook.yml'
                 }
+            }
+        }
+
+        stage("clear image"){
+            steps{
                 sh "docker rmi my-jenkins-img || echo 'image not found'"       
             }
         }
