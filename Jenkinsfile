@@ -1,17 +1,21 @@
 pipeline {
 
-    agent none
+    agent any
+
     environment {
         ANSIBLE_HOST_KEY_CHECKING = 'False'
     }
     stages {
-        stage("build iamge"){
-            
+        stage("build image"){
+            steps {
+                sh "docker rmi my-jenkins-img || echo 'image not found!' "
+                sh "docker build -t my-jenkins-img ."
+            }
         }
         stage('Deploy container') {
            agent{
                 docker {
-                    image 'khaliddinh/ansible'
+                    image 'my-jenkins-img'
                 }
             }
             steps {
@@ -23,7 +27,8 @@ pipeline {
                     sh 'ls -la'
                     sh 'chmod 400 ansible_key '
                     sh 'ansible-playbook -i hosts --private-key ansible_key playbook.yml'
-            }
+                }
+                sh "docker rmi my-jenkins-img || echo 'image not found'"       
             }
         }
         
