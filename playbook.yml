@@ -51,7 +51,7 @@
         name: my-network
     - name: Re-create a MySQL container
       docker_container:
-        name: quanndm2906-mysql
+        name: quanndm2906-java-mysql
         image: mysql:8.0
         networks:
           - name: my-network
@@ -70,7 +70,7 @@
           image: strict
 
     - name: SLEEP now !!!
-      shell: sleep 15 && sudo docker exec -i quanndm2906-mysql mysql --user=root --password=8NqUH_rNw58JLpqRp < script
+      shell: sleep 15 && sudo docker exec -i quanndm2906-java-mysql mysql --user=root --password=8NqUH_rNw58JLpqRp < script
 
     - name: Re-create a Spring container
       docker_container:
